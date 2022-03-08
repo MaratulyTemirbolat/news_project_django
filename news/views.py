@@ -6,7 +6,7 @@
 # from sympy import N, Ne
 # from django.shortcuts import get_object_or_404
 # from django.shortcuts import redirect
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.views.generic import ListView
 # Данный класс предназначен для работы со списками.
 # Задача его, вернуть список.
@@ -19,17 +19,38 @@ from django.views.generic import CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 # Используем для тех классов, для которых надо ограничить доступ
 from django.core.paginator import Paginator
+# from django.contrib.auth.forms import UserCreationForm
+# Form creates a user, with no privileges,from the given username and password.
+from django.contrib import messages
 
 from .models import News
 from .models import Category
 
-from .forms import NewsForm
+from .forms import NewsForm, UserRegisterForm
 
-# from django.urls import reverse_lazy 
-# # Делает тоже самое, что и reverse, но он срабатывает 
-# только тогда, когда до него дойдет очередь. 
-# Т.е когда все будет только работать, все маршруты подгрузятся, 
+# from django.urls import reverse_lazy
+# # Делает тоже самое, что и reverse, но он срабатывает
+# только тогда, когда до него дойдет очередь.
+# Т.е когда все будет только работать, все маршруты подгрузятся,
 # то reverse_lazy построит ссылку
+
+
+def register(request):
+    if request.method == 'POST':
+        form = UserRegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Вы успешно зарегистрировались')
+            return redirect('login')
+        else:
+            messages.error(request, 'Ошибка регистрации')
+    else:
+        form = UserRegisterForm()
+    return render(request, "news/register.html", {"form": form})
+
+
+def login(request):
+    return render(request, "news/login.html")
 
 
 def test(request):
