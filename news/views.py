@@ -22,11 +22,13 @@ from django.core.paginator import Paginator
 # from django.contrib.auth.forms import UserCreationForm
 # Form creates a user, with no privileges,from the given username and password.
 from django.contrib import messages
+from django.contrib.auth import login, logout
+from django.core.mail import send_mail
 
 from .models import News
 from .models import Category
 
-from .forms import NewsForm, UserRegisterForm
+from .forms import NewsForm, UserRegisterForm, UserLoginForm, ContactForm
 
 # from django.urls import reverse_lazy
 # # Делает тоже самое, что и reverse, но он срабатывает
@@ -35,13 +37,39 @@ from .forms import NewsForm, UserRegisterForm
 # то reverse_lazy построит ссылку
 
 
+def test_send_email(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            my_mail = send_mail(subject=form.cleaned_data['subject'],
+                                message=form.cleaned_data['content'],
+                                from_email='temirbolat_2001@mail.ru',
+                                recipient_list=[form.cleaned_data['send_to']],
+                                fail_silently=True)
+            if my_mail:
+                messages.success(request,
+                                 'Письмо пользователя "{}" успешно отправлено'.
+                                 format(request.user.username))
+                return redirect('send_emai')
+            else:
+                messages.error(request,
+                               'Ошибка отправки письма пользователем "{}"'.
+                               format(request.user.username))
+        else:
+            messages.error(request, 'Ошибка регистрации')
+    else:
+        form = ContactForm()
+    return render(request, "news/send_form.html", {"form": form})
+
+
 def register(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
+            login(request, user)
             messages.success(request, 'Вы успешно зарегистрировались')
-            return redirect('login')
+            return redirect('home')
         else:
             messages.error(request, 'Ошибка регистрации')
     else:
@@ -49,8 +77,21 @@ def register(request):
     return render(request, "news/register.html", {"form": form})
 
 
-def login(request):
-    return render(request, "news/login.html")
+def user_logout(request):
+    logout(request)
+    return redirect('login')
+
+
+def user_login(request):
+    if request.method == 'POST':
+        form = UserLoginForm(data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect('home')
+    else:
+        form = UserLoginForm()
+    return render(request, "news/login.html", {"form": form})
 
 
 def test(request):

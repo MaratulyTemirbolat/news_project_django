@@ -122,9 +122,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR,'static') # Указывает путь к папке, в которой хранятся все статические файлы
-STATICFILES_DIRS = [ # Здесь перечисляются список путей к дополнительным файлам со статикой 
-    os.path.join(BASE_DIR,'mysite/static'), 
+STATIC_ROOT = os.path.join(BASE_DIR, 'static') # Указывает путь к папке, в которой хранятся все статические файлы
+STATICFILES_DIRS = [  # Здесь перечисляются список путей к дополнительным файлам со статикой 
+    os.path.join(BASE_DIR, 'mysite/static'), 
 ]
 
 # Default primary key field type
@@ -132,9 +132,16 @@ STATICFILES_DIRS = [ # Здесь перечисляются список пут
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
+
+EMAIL_HOST = 'st'
+EMAIL_PORT = 465  # 2525
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = False

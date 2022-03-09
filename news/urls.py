@@ -1,18 +1,22 @@
 from django.urls import path
 
 from .views import (
-    login,
+    user_login,
     register,
     HomeNews,
     NewsByCategory,
     ViewNews,
     CreateNews,
     test,
+    user_logout,
+    test_send_email,
 )
 
 urlpatterns = [
-    path('login/', login, name="login"),
+    path('test_email_form/', test_send_email, name='send_emai'),
+    path('login/', user_login, name="login"),
     path('register/', register, name="register"),
+    path('logout/', user_logout, name="logout"),
     path('test/', test, name='test'),
     # path('',index,name = 'home'),
     path('', HomeNews.as_view(), name='home'),
