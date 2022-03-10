@@ -37,7 +37,7 @@ from .forms import NewsForm, UserRegisterForm, UserLoginForm, ContactForm
 # то reverse_lazy построит ссылку
 
 
-def test_send_email(request):
+def contact_email(request):
     if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
@@ -56,7 +56,7 @@ def test_send_email(request):
                                'Ошибка отправки письма пользователем "{}"'.
                                format(request.user.username))
         else:
-            messages.error(request, 'Ошибка регистрации')
+            messages.error(request, 'Ошибка валидации')
     else:
         form = ContactForm()
     return render(request, "news/send_form.html", {"form": form})
