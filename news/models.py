@@ -27,7 +27,7 @@ class News(models.Model):
         verbose_name = 'Новость'
         verbose_name_plural = 'Новости'
         ordering = ['-created_at']
-    
+
     def get_absolute_url(self):
         return reverse('view_news', kwargs={'pk': self.pk})
 
@@ -35,12 +35,12 @@ class News(models.Model):
 class Category(models.Model):
     title = models.CharField(max_length=150, db_index=True,
                              verbose_name='Наименование категории')
-    
+
     class Meta:
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории'
         ordering = ['title']
-    
+
     def get_absolute_url(self):
         return reverse('category', kwargs={"category_id": self.pk})
 

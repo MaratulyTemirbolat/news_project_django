@@ -195,7 +195,7 @@ class CreateNews(LoginRequiredMixin, CreateView):
     # то по умолчанию будет вызываться get_absolute_url той модели,
     # которая подвязана
     # login_url = '/admin/'
-    raise_exception = True 
+    raise_exception = True
 
 
 # Работа с Формами, несвязанными с моделями

@@ -10,8 +10,8 @@ from captcha.fields import CaptchaField
 from .models import News
 
 
-# Форма для отправки Писем 
-class ContactForm(forms.Form):
+# Форма для отправки Писем
+class ContactForm(forms.Form):  # noqa
     send_to = forms.CharField(label='Почта получателя',
                               widget=forms.TextInput(
                                   attrs={'class': 'form-control'}))
@@ -25,7 +25,7 @@ class ContactForm(forms.Form):
     captcha = CaptchaField()
 
 
-class UserLoginForm(AuthenticationForm):
+class UserLoginForm(AuthenticationForm):  # noqa
     username = forms.CharField(label='Имя пользователя',
                                widget=forms.TextInput(
                                    attrs={'class': 'form-control'}))
@@ -33,8 +33,8 @@ class UserLoginForm(AuthenticationForm):
                                widget=forms.PasswordInput(
                                     attrs={'class': 'form-control'}))
 
-                                    
-class UserRegisterForm(UserCreationForm):
+
+class UserRegisterForm(UserCreationForm):  # noqa
     username = forms.CharField(label='Имя пользователя',
                                widget=forms.TextInput(
                                    attrs={'class': 'form-control'}),
@@ -47,9 +47,9 @@ class UserRegisterForm(UserCreationForm):
                                     attrs={'class': 'form-control'}))
     email = forms.EmailField(label='E-mail',
                              widget=forms.EmailInput(
-                                    attrs={'class': 'form-control'}))                                
+                                    attrs={'class': 'form-control'}))
 
-    class Meta:
+    class Meta:  # noqa
         model = User
         fields = ('username', 'email', 'password1', 'password2')
 
